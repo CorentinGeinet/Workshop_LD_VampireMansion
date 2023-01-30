@@ -12,6 +12,8 @@ public class PlayerInteract : MonoBehaviour
     private UI_Interact interactUI;
     [SerializeField]
     private UI_Dialogue dialogueUI;
+    [SerializeField]
+    private UI_MontePlat montePlatUI;
 
     [SerializeField]
     private PlayerInventory playerInventory;
@@ -23,6 +25,7 @@ public class PlayerInteract : MonoBehaviour
         Indice indice = GetIndice();
         Door door = GetDoor();
         NPC npc = GetNPC();
+        MontePlat montePlat = GetMontePlat();
 
         if (indice != null)
         {
@@ -102,10 +105,31 @@ public class PlayerInteract : MonoBehaviour
             }
         }
 
+        else if(montePlat != null)
+        {
+            if(montePlat.GetIsInteracting() == false)
+            {
+                interactUI.ShowInteractUI();
+                interactUI.SetDescription(montePlat.GetDescriptionInteraction());
+            }
+            else
+            {
+                interactUI.HideInteractUI();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                montePlat.Interact(this);
+
+            }
+
+        }
+
         else
         {
             interactUI.HideInteractUI();
             dialogueUI.CleanDialogueUI();
+            montePlatUI.HideMenu();
         }
     }
 
@@ -156,6 +180,24 @@ public class PlayerInteract : MonoBehaviour
                 if (collider.transform.parent.TryGetComponent<NPC>(out NPC npc))
                 {
                     return npc;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public MontePlat GetMontePlat()
+    {
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+
+        foreach (Collider collider in colliderArray)
+        {
+            if (collider.transform.parent != null)
+            {
+                if (collider.transform.parent.TryGetComponent<MontePlat>(out MontePlat montePlat))
+                {
+                    return montePlat;
                 }
             }
         }
