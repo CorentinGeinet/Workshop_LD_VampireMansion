@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class MontePlat : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class MontePlat : MonoBehaviour
     [SerializeField]
     private bool isInteracting = false;
 
+    [SerializeField]
+    private GameObject player;
+
 
 
     private PlayerInteract playerInteract = null;
@@ -38,7 +42,7 @@ public class MontePlat : MonoBehaviour
     {
         if(isInteracting == false)
         {
-            montePlatUI.ShowMenu();
+            montePlatUI.ShowMenu(this);
 
             playerInteract = player;
 
@@ -72,36 +76,36 @@ public class MontePlat : MonoBehaviour
 
     public void TpToLabo()
     {
-        CharacterController charaController = playerInteract.GetComponent<CharacterController>();
+        CharacterController charaController = player.GetComponent<CharacterController>();
         charaController.enabled = false;
 
-        charaController.transform.localPosition = Labo.transform.position;
+        player.transform.position = Labo.transform.position;
 
         charaController.enabled = true;
     }
 
     public void TpToRDC()
     {
-        CharacterController charaController = playerInteract.GetComponent<CharacterController>();
+        CharacterController charaController = player.GetComponent<CharacterController>();
         charaController.enabled = false;
 
-        playerInteract.transform.position = RDC.transform.position;
+        player.transform.position = RDC.transform.position;
         charaController.enabled = true;
     }
     public void TpToEtage1()
     {
-        CharacterController charaController = playerInteract.GetComponent<CharacterController>();
+        CharacterController charaController = player.GetComponent<CharacterController>();
         charaController.enabled = false;
 
-        playerInteract.transform.position = Etage1.transform.position;
+        player.transform.position = Etage1.transform.position;
         charaController.enabled = true;
     }
     public void TpToEtage2()
     {
-        CharacterController charaController = playerInteract.GetComponent<CharacterController>();
+        CharacterController charaController = player.GetComponent<CharacterController>();
         charaController.enabled = false;
 
-        playerInteract.transform.position = Etage2.transform.position;
+        player.transform.position = Etage2.transform.position;
         charaController.enabled = true;
     }
 }

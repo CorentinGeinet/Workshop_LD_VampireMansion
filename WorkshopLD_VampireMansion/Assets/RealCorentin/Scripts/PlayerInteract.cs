@@ -26,6 +26,7 @@ public class PlayerInteract : MonoBehaviour
         Door door = GetDoor();
         NPC npc = GetNPC();
         MontePlat montePlat = GetMontePlat();
+        PassageSecret passageSecret = GetPassageSecret();
 
         if (indice != null)
         {
@@ -122,7 +123,14 @@ public class PlayerInteract : MonoBehaviour
                 montePlat.Interact(this);
 
             }
+        }
 
+        else if(passageSecret != null)
+        {
+            interactUI.ShowInteractUI();
+            interactUI.SetDescription(passageSecret.getDescriptionText());
+
+            passageSecret.Interact(this);
         }
 
         else
@@ -198,6 +206,24 @@ public class PlayerInteract : MonoBehaviour
                 if (collider.transform.parent.TryGetComponent<MontePlat>(out MontePlat montePlat))
                 {
                     return montePlat;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public PassageSecret GetPassageSecret()
+    {
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+
+        foreach (Collider collider in colliderArray)
+        {
+            if (collider.transform.parent != null)
+            {
+                if (collider.transform.parent.TryGetComponent<PassageSecret>(out PassageSecret passageSecret))
+                {
+                    return passageSecret;
                 }
             }
         }

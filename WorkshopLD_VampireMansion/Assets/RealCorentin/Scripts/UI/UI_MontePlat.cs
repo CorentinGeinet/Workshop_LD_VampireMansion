@@ -6,8 +6,6 @@ public class UI_MontePlat : MonoBehaviour
 {
     [SerializeField]
     private GameObject seeMenu;
-    [SerializeField]
-    private MontePlat montePlat;
 
     [SerializeField]
     private PlayerInteract playerInteract;
@@ -23,6 +21,8 @@ public class UI_MontePlat : MonoBehaviour
     private bool boolEtage1 = false;
     [SerializeField]
     private bool boolEtage2 = false;
+
+    private MontePlat selectedMontePlat;
 
     private void OnEnable()
     {
@@ -40,20 +40,25 @@ public class UI_MontePlat : MonoBehaviour
         UpdateItem(itemName);
     }
 
-    public void ShowMenu()
+    public void ShowMenu(MontePlat sender)
     {
         seeMenu.SetActive(true);
+        selectedMontePlat = sender;
     }
 
     public void HideMenu()
     {
         StopInteraction();
+        selectedMontePlat = null;
         seeMenu.SetActive(false);
     }
 
     public void StopInteraction()
     {
-        montePlat.SetIsInteracting(false);
+        if(selectedMontePlat != null)
+        {
+            selectedMontePlat.SetIsInteracting(false);
+        }
     }
 
     private void Update()
@@ -68,25 +73,25 @@ public class UI_MontePlat : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1) & boolLabo == true)
             {
-                montePlat.TpToLabo();
+                selectedMontePlat.TpToLabo();
                 HideMenu();
             }
 
             else if (Input.GetKeyDown(KeyCode.Alpha2) & boolRDC == true)
             {
-                montePlat.TpToRDC();
+                selectedMontePlat.TpToRDC();
                 HideMenu();
             }
 
             else if (Input.GetKeyDown(KeyCode.Alpha3) & boolEtage1 == true)
             {
-                montePlat.TpToEtage1();
+                selectedMontePlat.TpToEtage1();
                 HideMenu();
             }
 
             else if (Input.GetKeyDown(KeyCode.Alpha4) & boolEtage2 == true)
             {
-                montePlat.TpToEtage2();
+                selectedMontePlat.TpToEtage2();
                 HideMenu();
             }
         }
