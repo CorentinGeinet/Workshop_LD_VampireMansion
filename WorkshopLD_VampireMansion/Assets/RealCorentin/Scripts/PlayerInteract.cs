@@ -130,7 +130,11 @@ public class PlayerInteract : MonoBehaviour
             interactUI.ShowInteractUI();
             interactUI.SetDescription(passageSecret.getDescriptionText());
 
-            passageSecret.Interact(this);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                passageSecret.Interact(this);
+
+            }
         }
 
         else

@@ -13,11 +13,16 @@ public class PassageSecret : MonoBehaviour
     public void Interact(PlayerInteract playerInteract)
     {
         PlayerController playerController = playerInteract.GetComponent<PlayerController>();
-        playerController.enabled = false;
+        /*playerController.enabled = false;
 
         playerInteract.transform.position = teleportPoint.transform.position;
 
-        playerController.enabled = true;
+        playerController.enabled = true;*/
+
+        playerInteract.gameObject.SetActive(false);
+        playerInteract.transform.position = teleportPoint.transform.position;
+        playerInteract.gameObject.SetActive(true);
+
     }
 
     public string getDescriptionText()
